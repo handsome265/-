@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>光電板模擬 + LED 分析整合</title>
+
+<!-- Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #000;
+        color: #fff;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 { text-align:center; margin-bottom:20px; }
+
+    .container-grid {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .sim-container, .led-container {
+        background: #111;
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0 0 20px rgba(0,255,136,0.3);
+        flex: 1;
+        min-width: 680px;
+    }
+
+    /* 保留原本光電板 CSS 前綴 sim- */
+    /* 保留原本 LED CSS 前綴 led- */
+</style>
+</head>
+<body>
+
+<h1>光電板光學效率模擬 + LED 電流分析整合</h1>
+
+<div class="container-grid">
+    <div class="sim-container" id="simContainer">
+        <!-- 原本光電板模擬內容放這裡 -->
+        <!-- 這裡可以直接把 simulation HTML 內容複製進來，ID 加前綴 sim- 避免衝突 -->
+    </div>
+
+    <div class="led-container" id="ledContainer">
+        <!-- 原本 LED 分析內容放這裡 -->
+        <!-- 這裡可以直接把 LED HTML 內容複製進來，ID 加前綴 led- 避免衝突 -->
+    </div>
+</div>
+
+<script>
+/* 下面示範初始化光電板模擬與 LED 圖表 */
+
+// 假設你已經把光電板 HTML 複製到 simContainer，LED HTML 複製到 ledContainer
+
+// 初始化光電板模擬
+let simulation;
+function initSimulation() {
+    simulation = new AdvancedSolarPanelSimulation(); // 原本光電板的 class
+}
+
+// 初始化 LED 圖表
+let ledSimulation;
+function initLEDChart() {
+    showChart('line'); // 原本 LED showChart()
+    fillTable();       // 原本 LED fillTable()
+    return { showChart, fillTable }; // 可用於跨模擬器互動
+}
+
+// 範例：光電板效率更新時觸發 LED 更新
+function onEfficiencyUpdate(efficiency) {
+    // 這裡可以把 efficiency 傳給 LED 分析
+    console.log("光電板最新吸收效率:", efficiency);
+    // 例如可以改 LED 平均電流顯示
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    initSimulation();
+    ledSimulation = initLEDChart();
+});
+</script>
+
+</body>
+</html>
